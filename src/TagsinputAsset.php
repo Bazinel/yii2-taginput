@@ -7,8 +7,6 @@ namespace avikarsha\tagsinput;
  */
 class TagsinputAsset extends \yii\web\AssetBundle
 {
-    public $sourcePath = \Yii::getAlias('@vendor/life2016/bootstrap-tagsinput/dist');
-
     public $css = [
         'bootstrap-tagsinput.css',
     ];
@@ -22,4 +20,10 @@ class TagsinputAsset extends \yii\web\AssetBundle
         'yii\bootstrap\BootstrapPluginAsset',
         'avikarsha\tagsinput\TypeaheadAsset'
     ];
+    
+    public function init()
+    {
+        $this->sourcePath = \Yii::getAlias('@vendor/life2016/bootstrap-tagsinput/dist');
+        parent::init();
+    }
 }
