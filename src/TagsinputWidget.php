@@ -155,14 +155,14 @@ class TagsinputWidget extends \yii\widgets\InputWidget
     protected function hashPluginOptions($view)
     {
         if (isset($this->typeaheadOptions) && !empty($this->typeaheadOptions)) {
-            $this->clientOptions['typeaheadjs'][] = $this->typeaheadOptions;
+//            $this->clientOptions['typeaheadjs'][] = $this->typeaheadOptions;
         }
 
         if (isset($this->_dataset) && !empty($this->_dataset)) {
-            $this->clientOptions['typeaheadjs'][] = $this->_dataset;
+            $this->clientOptions['typeaheadjs'] = $this->_dataset;
         }
 
-        $encOptions = empty($this->clientOptions) ? '{}' : Json::encode($this->clientOptions);
+        $encOptions = empty($this->clientOptions) ? '{}' : Json::encode($this->clientOptions,JSON_FORCE_OBJECT);
         $this->_hashVar = self::PLUGIN_NAME . '_' . hash('crc32', $encOptions);
         $this->options['data-plugin-' . self::PLUGIN_NAME] = $this->_hashVar;
         $this->_hashPluginOptions = "var {$this->_hashVar} = {$encOptions};";
@@ -194,7 +194,7 @@ class TagsinputWidget extends \yii\widgets\InputWidget
                 }
                 $d['source'] = new JsExpression($source);
             }
-            $dataset[] = $d;
+            $dataset = $d;
             $index++;
         }
         $this->_dataset = $dataset;
@@ -230,7 +230,7 @@ class TagsinputWidget extends \yii\widgets\InputWidget
                 if ($key === 'local') {
                     $local = Json::encode($source[$key]);
                     $localVar = 'kvTypData_' . hash('crc32', $local);
-                    $this->getView()->registerJs("var {$localVar} = {$local};", View::POS_HEAD);
+                    $this->getView()->registerJs("var {$localVar} = {$local}; {$localVar}.initialize();", View::POS_HEAD);
                     $out[$key] = new JsExpression($localVar);
                 } elseif ($key === 'prefetch') {
                     $prefetch = $source[$key];
