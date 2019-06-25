@@ -242,7 +242,7 @@ class TagsinputWidget extends \yii\widgets\InputWidget
                 unset($source[$key]);
             }
         }
-        return "var {$dataVar} = new Bloodhound(" . Json::encode($out) . ");";
+         return "var {$dataVar} = new Bloodhound(" . Json::encode($out) . "); {$dataVar}.initialize();";
     }
 
     /**
